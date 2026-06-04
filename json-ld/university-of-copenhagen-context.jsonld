@@ -1,0 +1,61 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "ku": "https://www.ku.dk/ns#",
+    "name": "name",
+    "url": "url",
+    "description": "description",
+    "foundingDate": "foundingDate",
+    "logo": "logo",
+    "sameAs": "sameAs",
+    "address": "address",
+    "department": "department",
+    "CollegeOrUniversity": "CollegeOrUniversity",
+    "apis": {
+      "@id": "ku:apis",
+      "@container": "@set"
+    },
+    "api": {
+      "@id": "ku:api",
+      "@type": "@id"
+    },
+    "humanURL": {
+      "@id": "url",
+      "@type": "@id"
+    },
+    "baseURL": {
+      "@id": "ku:baseURL",
+      "@type": "@id"
+    },
+    "researchPortal": {
+      "@id": "ku:researchPortal",
+      "@type": "@id"
+    },
+    "webPlatform": {
+      "@id": "ku:webPlatform",
+      "@type": "@id"
+    }
+  },
+  "@type": "CollegeOrUniversity",
+  "name": "University of Copenhagen",
+  "url": "https://www.ku.dk/en",
+  "foundingDate": "1479",
+  "description": "Denmark's oldest and largest university and a leading research institution in the Nordic region.",
+  "sameAs": [
+    "https://www.linkedin.com/school/university-of-copenhagen/",
+    "https://github.com/ku-kom",
+    "https://en.wikipedia.org/wiki/University_of_Copenhagen"
+  ],
+  "apis": [
+    {
+      "@type": "WebAPI",
+      "name": "University of Copenhagen Research Portal (CURIS / Pure)",
+      "humanURL": "https://researchprofiles.ku.dk/en/"
+    },
+    {
+      "@type": "WebAPI",
+      "name": "University of Copenhagen Web Platform (ku-kom GitHub)",
+      "humanURL": "https://github.com/ku-kom"
+    }
+  ]
+}
