@@ -1,0 +1,79 @@
+---
+aid: university-of-copenhagen
+name: University of Copenhagen
+description: >-
+  The University of Copenhagen (Københavns Universitet, UCPH), founded in 1479,
+  is Denmark's oldest and largest university and one of the leading research
+  institutions in the Nordic region, ranked #53 in the QS World University
+  Rankings 2025. It has no centralized public developer portal or documented
+  open-data API program. Its public technical footprint consists of the
+  ku-kom GitHub organization (TYPO3 CMS extensions and front-end styleguide used
+  to build the ku.dk web platform) and the CURIS research information system on
+  researchprofiles.ku.dk, an Elsevier Pure platform that conventionally supports
+  OAI-PMH metadata harvesting and the Pure web service though these endpoints
+  could not be confirmed reachable from the public internet at review time.
+type: Index
+position: Consumer
+access: 3rd-Party
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/university-of-copenhagen/refs/heads/main/apis.yml
+tags:
+  - Education
+  - Higher Education
+  - University
+  - Research
+  - Denmark
+  - Nordic
+  - Open Source
+created: '2026-06-03'
+modified: '2026-06-03'
+specificationVersion: '0.19'
+apis:
+  - aid: university-of-copenhagen:research-portal
+    name: University of Copenhagen Research Portal (CURIS / Pure)
+    description: >-
+      The University of Copenhagen Research Portal (researchprofiles.ku.dk) is
+      built on the Elsevier Pure research information system, locally branded
+      CURIS. Pure platforms conventionally expose research metadata via an
+      OAI-PMH interface and the Pure web service (REST). The public portal was
+      reachable but its programmatic endpoints returned access-restricted
+      responses from the public internet at review time, so no working public
+      base URL is asserted here.
+    humanURL: https://researchprofiles.ku.dk/en/
+    tags: [ Research, Repository, Pure, OAI-PMH, Metadata ]
+    properties:
+      - type: Documentation
+        url: https://researchprofiles.ku.dk/en/
+  - aid: university-of-copenhagen:ku-kom-github
+    name: University of Copenhagen Web Platform (ku-kom GitHub)
+    description: >-
+      The ku-kom GitHub organization publishes the open-source TYPO3 CMS
+      extensions and Bootstrap-based styleguide that power the ku.dk web
+      platform. These are reusable source-code components rather than a hosted,
+      consumable web API, but they are the university's primary public
+      developer-facing technical assets.
+    humanURL: https://github.com/ku-kom
+    tags: [ Open Source, TYPO3, CMS, Web ]
+    properties:
+      - type: Documentation
+        url: https://github.com/ku-kom
+      - type: GitHub
+        url: https://github.com/ku-kom
+common:
+  - type: Website
+    url: https://www.ku.dk/en
+  - type: GitHub
+    url: https://github.com/ku-kom
+  - type: LinkedIn
+    url: https://www.linkedin.com/school/university-of-copenhagen/
+  - type: Plans
+    url: plans/university-of-copenhagen-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/university-of-copenhagen-rate-limits.yml
+  - type: FinOps
+    url: finops/university-of-copenhagen-finops.yml
+  - type: Review
+    url: review.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
