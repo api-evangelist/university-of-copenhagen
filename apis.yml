@@ -60,6 +60,8 @@ apis:
       - type: GitHub
         url: https://github.com/ku-kom
 common:
+  - type: DomainSecurity
+    url: security/university-of-copenhagen-domain-security.yml
   - type: Website
     url: https://www.ku.dk/en
   - type: GitHub
