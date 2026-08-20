@@ -36,6 +36,14 @@ tags:
   - Research
   - Denmark
   - Nordic
+  - Open-Source
+tags_raw:
+  - Education
+  - Higher Education
+  - University
+  - Research
+  - Denmark
+  - Nordic
   - Open Source
 created: '2026-06-03'
 modified: '2026-06-03'
@@ -65,7 +73,16 @@ apis:
       consumable web API, but they are the university's primary public
       developer-facing technical assets.
     humanURL: https://github.com/ku-kom
-    tags: [ Open Source, TYPO3, CMS, Web ]
+    tags:
+    - Open-Source
+    - TYPO3
+    - CMS
+    - Web
+    tags_raw:
+    - Open Source
+    - TYPO3
+    - CMS
+    - Web
     properties:
       - type: Documentation
         url: https://github.com/ku-kom
