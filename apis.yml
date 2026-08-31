@@ -1,41 +1,53 @@
 ---
 aid: university-of-copenhagen
 name: University of Copenhagen
+x-type: university
+x-category: Public Research University
 description: >-
-  The University of Copenhagen (Københavns Universitet, UCPH), founded in 1479,
-  is Denmark's oldest and largest university and one of the leading research
-  institutions in the Nordic region, ranked #53 in the QS World University
-  Rankings 2025. It has no centralized public developer portal or documented
-  open-data API program. Its public technical footprint consists of the
-  ku-kom GitHub organization (TYPO3 CMS extensions and front-end styleguide used
-  to build the ku.dk web platform) and the CURIS research information system on
-  researchprofiles.ku.dk, an Elsevier Pure platform that conventionally supports
-  OAI-PMH metadata harvesting and the Pure web service though these endpoints
-  could not be confirmed reachable from the public internet at review time.
+  The University of Copenhagen (Københavns Universitet, UCPH), founded in 1479, is Denmark's
+  oldest and largest university and one of the leading research institutions in the Nordic
+  region. It operates no central developer portal, no REST API program and no open-data
+  portal — api.ku.dk and developer.ku.dk do not resolve, and data.ku.dk redirects to the
+  homepage. What it does operate, and what makes it unusually well-covered for this cohort,
+  is a set of standards-based machine-readable surfaces on its own infrastructure: a
+  complete OAI-PMH 2.0 repository at curis.ku.dk serving 440,535 research records across
+  7,430 sets in six metadata formats; a signed SAML 2.0 identity provider at id.ku.dk
+  registered in the Danish WAYF federation; and thirteen Darwin Core Archive feeds published
+  by the Natural History Museum of Denmark from specify-snm.science.ku.dk and harvested by
+  GBIF. Its public research portal researchprofiles.ku.dk is by contrast an Elsevier Pure
+  tenancy — it CNAMEs to ku.elsevierpure.com and its REST contract is Elsevier's, api-key
+  gated — and is recorded here as a tenant relationship rather than as the university's own
+  API. The only source code the institution publishes is the ku-kom GitHub account: 52
+  repositories of TYPO3 content elements and a Bootstrap styleguide that build the ku.dk web
+  platform.
 type: Index
 deliveryModel:
   model: saas
   open_source: false
   commercial: true
-  callable_host: false
+  callable_host: true
   label: Hosted service · you call their endpoint
-  confidence: medium
+  confidence: high
   source:
-  - pricing
-  generated: '2026-08-28'
+  - probed
+  generated: '2026-08-30'
   method: derived
 accessModel:
   pricing: free
-  onboarding: unknown
+  onboarding: none
   trial: false
-  try_now: false
-  public: false
+  try_now: true
+  public: true
   label: Free
-  confidence: medium
+  confidence: high
   source:
-  - plans
-  generated: '2026-07-22'
+  - probed
+  generated: '2026-08-30'
   method: derived
+  note: >-
+    The institution-operated OAI-PMH endpoint takes no credential and no registration —
+    every verb answered 200 to an anonymous request on 2026-08-30. The Elsevier Pure REST
+    contract behind the same host is api-key gated (401), but that is the vendor's surface.
 position: Consumer
 access: 3rd-Party
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/university-of-copenhagen.png
@@ -48,6 +60,14 @@ tags:
   - Denmark
   - Nordic
   - Open-Source
+  - Research Data
+  - Research Repository
+  - Identity Federation
+  - OAI-PMH
+  - Open Data
+  - Research Computing
+  - Course Catalog
+  - Biodiversity
 tags_raw:
   - Education
   - Higher Education
@@ -56,48 +76,280 @@ tags_raw:
   - Denmark
   - Nordic
   - Open Source
+  - Research Data
+  - Research Repository
+  - Identity Federation
+  - OAI-PMH
+  - Open Data
+  - Research Computing
+  - Course Catalog
+  - Biodiversity
 created: '2026-06-03'
-modified: '2026-06-03'
+modified: '2026-08-30'
 specificationVersion: '0.23'
+x-coverage:
+  state: covered
+  reason: covered
+  detail: >-
+    Re-profiled 2026-08-30 under the university pipeline. The June 2026 profile recorded one
+    research-portal entry and asserted that the Pure endpoints "could not be confirmed
+    reachable from the public internet" — that conclusion was reached by probing the wrong
+    host. The Pure portal researchprofiles.ku.dk does not serve OAI-PMH (its /ws/oai returns
+    500 and redirects to /error/), but curis.ku.dk does, and it answers all six OAI-PMH
+    verbs at 200 unauthenticated. Two further institution-operated surfaces were found that
+    had never been catalogued: the SAML 2.0 identity-provider metadata at id.ku.dk, and the
+    Natural History Museum's Darwin Core Archive feeds on specify-snm.science.ku.dk. One
+    correction runs the other way: researchprofiles.ku.dk was previously carried as
+    institution-operated on the strength of its ku.dk hostname, and DNS resolution shows it
+    CNAMEs to ku.elsevierpure.com; it is re-labelled x-operator tenant. Negative results are
+    real too — www.ku.dk answers 200 with a 121,943-byte homepage for every unknown path, so
+    llms.txt, /.well-known/security.txt, /.well-known/ai.txt and /en/ai are all soft-404s and
+    none is credited.
+  evidence:
+    - url: https://curis.ku.dk/ws/oai?verb=Identify
+      status: 200
+    - url: https://curis.ku.dk/ws/oai?verb=ListMetadataFormats
+      status: 200
+    - url: https://curis.ku.dk/ws/oai?verb=ListSets
+      status: 200
+    - url: https://curis.ku.dk/ws/oai?verb=NoSuchVerb
+      status: 200
+      note: OAI badVerb error element, correctly formed
+    - url: https://id.ku.dk/nidp/saml2/metadata
+      status: 200
+    - url: https://metadata.wayf.dk/birk-idp.xml
+      status: 200
+    - url: https://specify-snm.science.ku.dk/static/depository/export_feed/DwCA-QZ.zip
+      status: 200
+    - url: https://api.datacite.org/providers/xizz
+      status: 200
+    - url: https://erda.ku.dk/
+      status: 200
+    - url: https://hpc.ku.dk/
+      status: 200
+    - url: https://kurser.ku.dk/
+      status: 200
+    - url: https://www.ku.dk/en
+      status: 200
+    - url: https://github.com/ku-kom
+      status: 200
+    - url: https://researchprofiles.ku.dk/en/
+      status: 403
+      note: Cloudflare bot interstitial — live, not dead
+    - url: https://curis.ku.dk/ws/api/524/openapi.yaml
+      status: 401
+      note: Elsevier Pure contract, api-key gated — vendor's document, not saved here
+    - url: https://researchprofiles.ku.dk/ws/oai?verb=Identify
+      status: 500
+      note: The portal host does not serve OAI-PMH; curis.ku.dk does
+    - url: https://data.ku.dk/
+      status: 200
+      note: Redirects to www.ku.dk — no open-data portal exists
+    - url: https://www.ku.dk/llms.txt
+      status: 200
+      note: Soft-404 — identical body to any unknown path; not a real file
+    - url: https://www.ku.dk/.well-known/security.txt
+      status: 200
+      note: Soft-404 — identical body to any unknown path; not a real file
+    - url: https://skema.ku.dk/
+      status: 503
+    - url: https://federation.ku.dk/adfs/services/trust
+      status: 0
+      note: Connection timed out — AD FS firewalled from the public internet
 apis:
-  - aid: university-of-copenhagen:research-portal
-    name: University of Copenhagen Research Portal (CURIS / Pure)
+  - aid: university-of-copenhagen:curis-oai-pmh
+    name: University of Copenhagen CURIS OAI-PMH Repository Interface
+    x-operator: institution
     description: >-
-      The University of Copenhagen Research Portal (researchprofiles.ku.dk) is
-      built on the Elsevier Pure research information system, locally branded
-      CURIS. Pure platforms conventionally expose research metadata via an
-      OAI-PMH interface and the Pure web service (REST). The public portal was
-      reachable but its programmatic endpoints returned access-restricted
-      responses from the public internet at review time, so no working public
-      base URL is asserted here.
-    humanURL: https://researchprofiles.ku.dk/en/
-    tags: [ Research, Repository, Pure, OAI-PMH, Metadata ]
+      A complete, unauthenticated OAI-PMH 2.0 repository operated by the university on its
+      own host. verb=Identify names the repository "University of Copenhagen", gives
+      adminEmail curis@adm.ku.dk and attributes ownership to the org unit "KU Forskning og
+      Informationssikkerhed". curis.ku.dk resolves to 130.226.237.49, inside the same
+      University of Copenhagen /24 as cmsgw.adm.ku.dk and skema.ku.dk — this is the
+      institution's own infrastructure, not the Elsevier tenancy. Six metadata formats
+      (oai_dc, oai_cerif_openaire, mods, xmetadiss, fi-person, ddf-mxd), 7,430 sets, and
+      440,535 records in oai_dc over openaire_cris_publications. Declares OpenAIRE CERIF
+      compatibility level 1.1.1. The software underneath is Pure 5.30.3-3, but the protocol
+      is an open OpenArchives standard, so the contract described is Copenhagen's deployment
+      of a public standard rather than a vendor's proprietary API.
+    baseURL: https://curis.ku.dk/ws/oai
+    humanURL: https://researchprofiles.ku.dk/
+    tags: [ Research, Repository, OAI-PMH, Metadata, Open Data, Institution-Operated ]
     properties:
+      - type: OpenAPI
+        url: openapi/university-of-copenhagen-curis-oai-pmh-openapi.yml
+      - type: Examples
+        url: examples/university-of-copenhagen-curis-oai-pmh-examples.yml
+      - type: Authentication
+        url: authentication/university-of-copenhagen-authentication.yml
+      - type: ErrorCatalog
+        url: errors/university-of-copenhagen-oai-pmh-errors.yml
+      - type: Conformance
+        url: conformance/university-of-copenhagen-conformance.yml
       - type: Documentation
-        url: https://researchprofiles.ku.dk/en/
-  - aid: university-of-copenhagen:ku-kom-github
-    name: University of Copenhagen Web Platform (ku-kom GitHub)
+        url: http://www.openarchives.org/OAI/openarchivesprotocol.html
+  - aid: university-of-copenhagen:identity-federation
+    name: University of Copenhagen SAML 2.0 Identity Provider
+    x-operator: institution
     description: >-
-      The ku-kom GitHub organization publishes the open-source TYPO3 CMS
-      extensions and Bootstrap-based styleguide that power the ku.dk web
-      platform. These are reusable source-code components rather than a hosted,
-      consumable web API, but they are the university's primary public
-      developer-facing technical assets.
+      The university publishes a signed SAML 2.0 EntityDescriptor at
+      https://id.ku.dk/nidp/saml2/metadata (200, 24,737 bytes, text/xml), entityID
+      https://id.ku.dk/nidp/saml2/metadata. Three ku.dk SAML entities are registered in
+      WAYF, the Danish national research-and-education federation and Denmark's eduGAIN
+      participant: the id.ku.dk NetIQ Access Manager IdP, its test twin t-id.ku.dk, and a
+      Windows AD FS endpoint at federation.ku.dk (registered but firewalled — it times out
+      from the public internet). Verified in use: kunet.ku.dk redirects to
+      id.ku.dk/nidp/wsfed/ep to authenticate. Identity federation is institution-operated by
+      definition and is almost never catalogued for this cohort.
+    baseURL: https://id.ku.dk/nidp/saml2/metadata
+    humanURL: https://www.wayf.dk/
+    tags: [ Identity Federation, SAML, WAYF, eduGAIN, Institution-Operated ]
+    properties:
+      - type: Metadata
+        url: https://id.ku.dk/nidp/saml2/metadata
+      - type: Documentation
+        url: https://metadata.wayf.dk/birk-idp.xml
+      - type: Authentication
+        url: authentication/university-of-copenhagen-authentication.yml
+  - aid: university-of-copenhagen:nhmd-darwin-core
+    name: Natural History Museum of Denmark Darwin Core Archive Feeds
+    x-operator: institution
+    description: >-
+      The Natural History Museum of Denmark, a University of Copenhagen faculty museum,
+      publishes thirteen Darwin Core Archive exports from the Faculty of Science's own host
+      specify-snm.science.ku.dk — entomology, mycology, ornithology, mammalogy, herpetology,
+      ichthyology, invertebrate zoology, quaternary zoology, vertebrate palaeontology,
+      vascular plants, biocultural botany, amber and the Danekræ collection. GBIF harvests
+      them under publishing organization 2e7df380-8356-4533-bcb3-5459e23c794e (34 datasets
+      in total; the remaining 21 arrive via ipt.danbif.dk and danbif.au.dk, which are not
+      Copenhagen's infrastructure). These zips are the only bulk open-data downloads the
+      university serves from a host it operates. The feed directory itself returns 403 to a
+      listing request — normal for a directory of files, not a dead host; the individual
+      archives under it return 200 application/zip.
+    baseURL: https://specify-snm.science.ku.dk/static/depository/export_feed/
+    humanURL: https://snm.dk/en
+    tags: [ Open Data, Biodiversity, Darwin Core, GBIF, Institution-Operated ]
+    properties:
+      - type: DataDownload
+        url: https://specify-snm.science.ku.dk/static/depository/export_feed/DwCA-QZ.zip
+      - type: Documentation
+        url: https://snm.dk/en
+      - type: Conformance
+        url: conformance/university-of-copenhagen-conformance.yml
+  - aid: university-of-copenhagen:erda
+    name: Electronic Research Data Archive (ERDA) and SCIENCE HPC Center
+    x-operator: institution
+    description: >-
+      ERDA (erda.ku.dk, erda.dk, sid.erda.dk) is the university's research data archive,
+      operated by the SCIENCE HPC Center at the Faculty of Science and skinned
+      erda-ucph-science. UCPH users authenticate through id.ku.dk; external collaborators
+      through oidc.erda.dk and cert.erda.dk. The archive exposes data over WebDAVS, SFTP and
+      FTPS rather than a documented HTTP API, and no OpenAPI or /.well-known descriptor was
+      found on any ERDA host. The associated SCIENCE HPC Center at hpc.ku.dk documents
+      SLURM, Lustre, MPI, compiler and VGL access as web pages. Recorded as a real
+      institution-operated research-computing surface with no machine-readable contract.
+    humanURL: https://erda.ku.dk/
+    tags: [ Research Computing, Research Data, Institution-Operated ]
+    properties:
+      - type: Website
+        url: https://erda.ku.dk/
+      - type: Documentation
+        url: https://hpc.ku.dk/
+  - aid: university-of-copenhagen:course-catalog
+    name: University of Copenhagen Course Catalogue
+    x-operator: institution
+    description: >-
+      kurser.ku.dk is the university's course catalogue, on a Copenhagen hostname running on
+      Arcanic infrastructure (courses.loadbalancer.arcanic.dk). It serves human-readable
+      course pages keyed by course code and a 471KB sitemap.xml enumerating every course,
+      which is the only bulk-readable representation on offer — there is no JSON API,
+      ?format=json returns the same HTML, and /api/ returns 404. The companion timetable
+      host skema.ku.dk returned 503. Catalogued as a surface class the institution genuinely
+      operates while being explicit that it is not programmable.
+    humanURL: https://kurser.ku.dk/
+    tags: [ Course Catalog, Registrar, Institution-Operated ]
+    properties:
+      - type: Website
+        url: https://kurser.ku.dk/
+      - type: Sitemap
+        url: https://kurser.ku.dk/sitemap.xml
+  - aid: university-of-copenhagen:research-portal-pure
+    name: University of Copenhagen Research Portal (Elsevier Pure tenancy)
+    x-operator: tenant
+    description: >-
+      researchprofiles.ku.dk is the university's public research portal and the front end of
+      CURIS. It is an Elsevier Pure tenancy, not Copenhagen's engineering: the hostname
+      CNAMEs researchprofiles.ku.dk -> ku.elsevierpure.com -> eu.prod.elsevierpure.com ->
+      Cloudflare, the Identify block on the harvesting endpoint reports the software as Pure
+      5.30.3-3 with acronym pure.atira.dk, and the REST contract at
+      /ws/api/524/openapi.yaml is Elsevier's document, returned 401 without an api-key. The
+      portal itself answers 403 with a Cloudflare interstitial to non-browser clients — live
+      but bot-blocked. The data and the DOIs are Copenhagen's; the contract is Elsevier's,
+      so no Pure specification is saved under this slug. The relationship is the fact worth
+      recording. The institution's own harvesting interface over the same data is the
+      separate curis-oai-pmh entry above.
+    humanURL: https://researchprofiles.ku.dk/
+    tags: [ Research, Repository, Pure, Elsevier, Tenant ]
+    properties:
+      - type: Website
+        url: https://researchprofiles.ku.dk/
+      - type: Vendor
+        url: https://www.elsevier.com/products/pure
+  - aid: university-of-copenhagen:datacite-xizz
+    name: University of Copenhagen DataCite Membership (XIZZ)
+    x-operator: tenant
+    description: >-
+      The university is an active DataCite member — provider symbol XIZZ, memberType
+      consortium_organization, isActive true — with two registered repositories: xizz.curis
+      ("CURIS", pointed at researchprofiles.ku.dk) and dk.ku ("University of Copenhagen").
+      This is how Copenhagen mints persistent identifiers for its own research outputs. The
+      API is DataCite's, the account and the DOIs are Copenhagen's, which is precisely the
+      tenant shape.
+    humanURL: https://api.datacite.org/providers/xizz
+    tags: [ Persistent Identifiers, DataCite, DOI, Tenant ]
+    x-audit-note: >-
+      audit-university-contracts.py returns [vendor] for api.datacite.org because seven other
+      institutions in the cohort point at the same host, and that verdict is correct about the
+      HOST. It is not the whole fact. What is recorded here is Copenhagen's ACCOUNT on that
+      platform — provider symbol XIZZ with two named repositories — which is the tenant shape
+      the university pipeline exists to preserve. No DataCite contract, schema or artifact is
+      saved under this slug; the only pointers below are the registry record and this repo's
+      own conformance file.
+    properties:
+      - type: Registry
+        url: https://api.datacite.org/providers/xizz
+      - type: Conformance
+        url: conformance/university-of-copenhagen-conformance.yml
+  - aid: university-of-copenhagen:ku-kom-github
+    name: University of Copenhagen Web Platform Source (ku-kom)
+    x-operator: institution
+    description: >-
+      github.com/ku-kom is the university's GitHub account — a User account rather than an
+      Organization, named "University of Copenhagen" and linked to www.ku.dk — publishing 52
+      public repositories: the KU Bootstrap styleguide and a family of ucph_content_* TYPO3
+      content elements (grids, tabs, accordions, modals, sliders, the UCPH employee
+      directory, the UCPH system status element) that build the ku.dk web platform. Judged
+      by what it says about itself rather than by the fact that it lives on a code host:
+      these are the institution's own components. They are reusable source code, not a
+      hosted, callable service, and no OpenAPI or other API contract is published in any of
+      them.
     humanURL: https://github.com/ku-kom
     tags:
     - Open-Source
     - TYPO3
     - CMS
     - Web
+    - Institution-Operated
     tags_raw:
     - Open Source
     - TYPO3
     - CMS
     - Web
+    - Institution-Operated
     properties:
-      - type: Documentation
-        url: https://github.com/ku-kom
       - type: GitHub
+        url: https://github.com/ku-kom
+      - type: Documentation
         url: https://github.com/ku-kom
 common:
   - type: DomainSecurity
@@ -106,8 +358,34 @@ common:
     url: https://www.ku.dk/en
   - type: GitHub
     url: https://github.com/ku-kom
+  - type: GitHubOrganization
+    url: https://github.com/ku-kom
   - type: LinkedIn
     url: https://www.linkedin.com/school/university-of-copenhagen/
+  - type: Blog
+    url: https://news.ku.dk/
+  - type: ResearchRepository
+    url: https://researchprofiles.ku.dk/
+  - type: IdentityFederation
+    url: https://id.ku.dk/nidp/saml2/metadata
+  - type: OpenData
+    url: https://specify-snm.science.ku.dk/static/depository/export_feed/DwCA-QZ.zip
+  - type: ResearchComputing
+    url: https://hpc.ku.dk/
+  - type: CourseCatalog
+    url: https://kurser.ku.dk/
+  - type: OpenAPI
+    url: openapi/university-of-copenhagen-curis-oai-pmh-openapi.yml
+  - type: Authentication
+    url: authentication/university-of-copenhagen-authentication.yml
+  - type: ErrorCatalog
+    url: errors/university-of-copenhagen-oai-pmh-errors.yml
+  - type: Examples
+    url: examples/university-of-copenhagen-curis-oai-pmh-examples.yml
+  - type: Conformance
+    url: conformance/university-of-copenhagen-conformance.yml
+  - type: Vocabulary
+    url: vocabulary/university-of-copenhagen-vocabulary.yml
   - type: Plans
     url: plans/university-of-copenhagen-plans-pricing.yml
   - type: RateLimits
