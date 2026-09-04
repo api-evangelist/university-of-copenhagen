@@ -48,7 +48,7 @@ accessModel:
     The institution-operated OAI-PMH endpoint takes no credential and no registration —
     every verb answered 200 to an anonymous request on 2026-08-30. The Elsevier Pure REST
     contract behind the same host is api-key gated (401), but that is the vendor's surface.
-position: Consumer
+position: Consuming
 access: 3rd-Party
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/university-of-copenhagen.png
 url: https://raw.githubusercontent.com/api-evangelist/university-of-copenhagen/refs/heads/main/apis.yml
