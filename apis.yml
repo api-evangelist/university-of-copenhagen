@@ -257,6 +257,12 @@ apis:
   - Repository
   - Pure
   - Elsevier
+  - Tenants
+  tags_raw:
+  - Research
+  - Repository
+  - Pure
+  - Elsevier
   - Tenant
   properties:
   - type: Website
@@ -273,6 +279,11 @@ apis:
     precisely the tenant shape.'
   humanURL: https://api.datacite.org/providers/xizz
   tags:
+  - Persistent Identifiers
+  - DataCite
+  - DOI
+  - Tenants
+  tags_raw:
   - Persistent Identifiers
   - DataCite
   - DOI
