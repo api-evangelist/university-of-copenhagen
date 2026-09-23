@@ -1,0 +1,119 @@
+generated: '2026-08-30'
+method: derived
+x-evidence-method: probed
+x-evidence-note: >-
+  Written by API Evangelist from live HTTP probes of the institution's own endpoints on
+  2026-08-30; every status code and payload quoted below was observed, not inferred. `derived`
+  is the provenance-manifest term for "we wrote it" — the provider did not publish this file.
+regime: education
+source: >-
+  Live probes run 2026-08-30 against curis.ku.dk, id.ku.dk, metadata.wayf.dk,
+  api.datacite.org and api.gbif.org. Each entry names the exact URL and what came back.
+note: >-
+  Conformance against the Kin Score `education` regime standards list. Reward-only: a
+  standard absent from this file is one for which no evidence was found, not one that was
+  judged and failed — the `not_found` block at the bottom records what was looked for.
+  Copenhagen turns out to be one of the better-conformant institutions in this cohort, and
+  every hit below sits on a University of Copenhagen host or a registry entry naming the
+  university as the operating party.
+standards:
+  - id: oai-pmh
+    conforms: true
+    evidence: >-
+      Full OAI-PMH 2.0 repository at https://curis.ku.dk/ws/oai. verb=Identify returns 200
+      application/xml declaring protocolVersion 2.0, repositoryName "University of
+      Copenhagen", adminEmail curis@adm.ku.dk, earliestDatestamp 2013-07-05T08:08:50Z and
+      granularity YYYY-MM-DDThh:mm:ssZ. All six verbs (Identify, ListMetadataFormats,
+      ListSets, ListIdentifiers, ListRecords, GetRecord) answered 200 on 2026-08-30, plus
+      correct badVerb and badArgument error elements. 7,430 sets; 440,535 records in
+      oai_dc over openaire_cris_publications. Host resolves to 130.226.237.49, a University
+      of Copenhagen address — this is the institution's own deployment, not the Elsevier
+      tenancy at researchprofiles.ku.dk (which returns 500 on the same path).
+    location: https://curis.ku.dk/ws/oai?verb=Identify
+  - id: saml
+    conforms: true
+    evidence: >-
+      University of Copenhagen operates its own SAML 2.0 identity provider. A signed
+      EntityDescriptor with entityID https://id.ku.dk/nidp/saml2/metadata is served at 200,
+      24,737 bytes, Content-Type text/xml. Three ku.dk SAML entities are registered in the
+      Danish national research federation WAYF (https://metadata.wayf.dk/birk-idp.xml, 200,
+      4,359,356 bytes, 158 entities): http://federation.ku.dk/adfs/services/trust,
+      https://id.ku.dk/nidp/saml2/metadata and https://t-id.ku.dk/nidp/saml2/metadata. WAYF
+      is the Danish eduGAIN participant, so these entities are reachable inter-federation.
+      Verified in use — https://kunet.ku.dk/ redirects to id.ku.dk/nidp/wsfed/ep for login.
+    location: https://id.ku.dk/nidp/saml2/metadata
+  - id: orcid
+    conforms: true
+    evidence: >-
+      ORCID iDs are carried as first-class elements in Copenhagen's CERIF person records.
+      GET https://curis.ku.dk/ws/oai?verb=ListRecords&metadataPrefix=oai_cerif_openaire&set=openaire_cris_persons
+      returned 200 / 137,779 bytes with 28 <ORCID> elements on the first page alone, in
+      canonical https://orcid.org/0000-0002-4145-942X form.
+    location: 'https://curis.ku.dk/ws/oai?verb=ListRecords&metadataPrefix=oai_cerif_openaire&set=openaire_cris_persons'
+  - id: datacite
+    conforms: true
+    evidence: >-
+      University of Copenhagen is an active DataCite member. GET
+      https://api.datacite.org/providers/xizz returns 200 with name "University of
+      Copenhagen", symbol XIZZ, memberType consortium_organization, isActive true. Two
+      repositories are registered under it — GET
+      https://api.datacite.org/clients?provider-id=xizz returns total 2:
+      `xizz.curis` ("CURIS", url https://researchprofiles.ku.dk/) and `dk.ku` ("University
+      of Copenhagen"). The institution is therefore a DOI registrant, not merely a citer.
+    location: https://api.datacite.org/providers/xizz
+  - id: crossref
+    conforms: partial
+    evidence: >-
+      Crossref DOIs are emitted in Copenhagen's machine-readable output — <cerif:DOI>
+      elements such as 10.1007/978-3-540-30557-6_17 and 10.1007/1-4020-5030-5 appear in the
+      oai_cerif_openaire publication records. Marked partial deliberately: Copenhagen
+      resolves and republishes publisher-minted Crossref DOIs, and no evidence was found
+      that it is itself a Crossref member depositing metadata. Its own minting is via
+      DataCite (above).
+    location: 'https://curis.ku.dk/ws/oai?verb=ListRecords&metadataPrefix=oai_cerif_openaire&set=openaire_cris_publications'
+adjacent_standards:
+  - id: openaire-cerif-1.1
+    conforms: true
+    evidence: >-
+      The Identify description block declares
+      https://www.openaire.eu/cerif-profile/vocab/OpenAIRE_Service_Compatibility#1.1.1 and
+      ListMetadataFormats advertises the oai_cerif_openaire prefix against the 1.2 schema
+      (https://www.openaire.eu/schema/cris/1.2/openaire-cerif-profile.xsd). This is the
+      OpenAIRE Guidelines for CRIS Managers conformance level.
+  - id: dublin-core
+    conforms: true
+    evidence: metadataPrefix oai_dc served against http://www.openarchives.org/OAI/2.0/oai_dc.xsd.
+  - id: mods-3.8
+    conforms: true
+    evidence: metadataPrefix mods served against http://www.loc.gov/mods/v3/mods-3-8.xsd.
+  - id: darwin-core-archive
+    conforms: true
+    evidence: >-
+      The Natural History Museum of Denmark, a University of Copenhagen faculty museum,
+      publishes 13 Darwin Core Archive feeds from the institution's own host
+      specify-snm.science.ku.dk. GET
+      https://specify-snm.science.ku.dk/static/depository/export_feed/DwCA-QZ.zip returned
+      200 application/zip, 3,181,908 bytes on 2026-08-30. GBIF harvests these — publishing
+      organization 2e7df380-8356-4533-bcb3-5459e23c794e lists 34 datasets, 13 of them
+      served from the ku.dk host (the remainder come via ipt.danbif.dk and danbif.au.dk,
+      which are not Copenhagen's infrastructure).
+not_found:
+  - id: shibboleth
+    note: >-
+      Not claimed. Copenhagen federates with SAML 2.0, but the software behind
+      id.ku.dk is NetIQ/Micro Focus Access Manager (/nidp/ paths) and federation.ku.dk is
+      Windows AD FS. No Shibboleth IdP or SP metadata was found on any ku.dk host.
+  - id: scim
+    note: No SCIM /v2/Users or /ServiceProviderConfig endpoint found on any probed ku.dk host.
+  - id: lti
+    note: >-
+      No LTI tool configuration or platform registration surface found on a ku.dk host. The
+      LMS (Absalon) is a Canvas tenancy and its LTI surface would be Instructure's.
+  - id: oneroster
+    note: No OneRoster endpoint found; no IMS Global / 1EdTech conformance claim on ku.dk.
+  - id: ed-fi
+    note: Not applicable — Ed-Fi is a US K-12/state-agency data standard.
+  - id: caliper
+    note: No Caliper Analytics event store or sensor endpoint found.
+  - id: qti
+    note: No QTI assessment package or delivery endpoint found on a ku.dk host.

@@ -1,0 +1,77 @@
+generated: '2026-08-30'
+method: derived
+x-evidence-method: probed
+x-evidence-note: >-
+  Written by API Evangelist from live HTTP probes of the institution's own endpoints on
+  2026-08-30; every status code and payload quoted below was observed, not inferred. `derived`
+  is the provenance-manifest term for "we wrote it" — the provider did not publish this file.
+source: https://curis.ku.dk/ws/oai
+description: >-
+  Live probe record for the University of Copenhagen CURIS OAI-PMH endpoint, captured
+  2026-08-30. Every row is a request that was actually issued and the status, size and
+  content type that came back. These are the evidence behind
+  openapi/university-of-copenhagen-curis-oai-pmh-openapi.yml — the spec was derived from
+  these responses, not from vendor documentation.
+probes:
+  - request: 'GET /ws/oai?verb=Identify'
+    url: https://curis.ku.dk/ws/oai?verb=Identify
+    status: 200
+    content_type: application/xml
+    bytes: 1695
+    observed:
+      repositoryName: University of Copenhagen
+      baseURL: https://curis.ku.dk/ws/oai
+      protocolVersion: '2.0'
+      adminEmail: curis@adm.ku.dk
+      earliestDatestamp: '2013-07-05T08:08:50Z'
+      deletedRecord: 'no'
+      granularity: YYYY-MM-DDThh:mm:ssZ
+      openaire_compatibility: 'https://www.openaire.eu/cerif-profile/vocab/OpenAIRE_Service_Compatibility#1.1.1'
+      software: Pure 5.30.3-3
+      owner_org_unit: KU Forskning og Informationssikkerhed
+  - request: 'GET /ws/oai?verb=ListMetadataFormats'
+    url: https://curis.ku.dk/ws/oai?verb=ListMetadataFormats
+    status: 200
+    content_type: application/xml
+    observed_prefixes: [xmetadiss, oai_cerif_openaire, fi-person, mods, oai_dc, ddf-mxd]
+  - request: 'GET /ws/oai?verb=ListSets'
+    url: https://curis.ku.dk/ws/oai?verb=ListSets
+    status: 200
+    bytes: 1181808
+    observed_set_count: 7430
+    observed_first_sets: [openaire_cris_publications, openaire_cris_patents, openaire_cris_persons, openaire_cris_orgunits]
+  - request: 'GET /ws/oai?verb=ListRecords&metadataPrefix=oai_dc&set=openaire_cris_publications'
+    url: https://curis.ku.dk/ws/oai?verb=ListRecords&metadataPrefix=oai_dc&set=openaire_cris_publications
+    status: 200
+    bytes: 180068
+    completeListSize: 440535
+  - request: 'GET /ws/oai?verb=ListRecords&metadataPrefix=oai_cerif_openaire&set=openaire_cris_persons'
+    url: https://curis.ku.dk/ws/oai?verb=ListRecords&metadataPrefix=oai_cerif_openaire&set=openaire_cris_persons
+    status: 200
+    bytes: 137779
+    note: >-
+      Person records carry <ORCID>https://orcid.org/…</ORCID> — 28 ORCID elements in the
+      first page alone. This is the evidence for the `orcid` domain-standard conformance.
+  - request: 'GET /ws/oai?verb=ListIdentifiers&metadataPrefix=oai_dc&set=openaire_cris_persons'
+    url: https://curis.ku.dk/ws/oai?verb=ListIdentifiers&metadataPrefix=oai_dc&set=openaire_cris_persons
+    status: 200
+    bytes: 23818
+  - request: 'GET /ws/oai?verb=GetRecord&metadataPrefix=oai_dc&identifier=oai:pure.atira.dk:openaire_cris_publications/39b0bfc0-74bc-11db-bee9-02004c4f4f50'
+    status: 200
+    content_type: application/xml
+    bytes: 2897
+  - request: 'GET /ws/oai?verb=NoSuchVerb'
+    status: 200
+    error_code: badVerb
+  - request: 'GET /ws/oai?verb=GetRecord (no metadataPrefix)'
+    status: 200
+    error_code: badArgument
+sample_record:
+  verb: GetRecord
+  metadataPrefix: oai_dc
+  identifier: oai:pure.atira.dk:openaire_cris_publications/39b0bfc0-74bc-11db-bee9-02004c4f4f50
+  datestamp: '2023-06-06T14:32:12Z'
+  dc_title: Distribution Patterns of Solanum in the Horn of Africa
+  dc_creator: Friis, Ib
+  dc_identifier: https://researchprofiles.ku.dk/da/publications/39b0bfc0-74bc-11db-bee9-02004c4f4f50
+  cerif_doi: 10.1007/978-3-540-30557-6_17

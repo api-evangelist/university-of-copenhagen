@@ -1,0 +1,67 @@
+generated: '2026-08-30'
+method: derived
+x-evidence-method: probed
+x-evidence-note: >-
+  Written by API Evangelist from live HTTP probes of the institution's own endpoints on
+  2026-08-30; every status code and payload quoted below was observed, not inferred. `derived`
+  is the provenance-manifest term for "we wrote it" — the provider did not publish this file.
+source: https://curis.ku.dk/ws/oai
+format: oai-pmh-error-element
+rfc9457: false
+note: >-
+  OAI-PMH does not signal protocol failure with an HTTP status. Both error cases probed
+  against this host on 2026-08-30 returned HTTP 200 with a well-formed OAI-PMH envelope
+  carrying an <error code="..."> element. A client that reads only the status line will
+  treat every failure as a success — which is a real ergonomics fact about this surface and
+  is why it is recorded here rather than left implicit.
+envelope:
+  content_type: application/xml
+  namespace: http://www.openarchives.org/OAI/2.0/
+  shape: '<OAI-PMH><responseDate/><request/><error code="..">message</error></OAI-PMH>'
+probed:
+  - code: badVerb
+    http_status: 200
+    request: 'GET /ws/oai?verb=NoSuchVerb'
+    message: >-
+      Value of the verb argument is not a legal OAI-PMH verb, the verb argument is missing,
+      or the verb argument is repeated.
+  - code: badArgument
+    http_status: 200
+    request: 'GET /ws/oai?verb=GetRecord'
+    message: >-
+      The request includes illegal arguments or is missing required arguments.
+      metadataPrefix is required.
+declared_by_protocol:
+  - code: badResumptionToken
+    meaning: resumptionToken is invalid or expired.
+    probed: false
+  - code: cannotDisseminateFormat
+    meaning: metadataPrefix is not supported by the item or repository.
+    probed: false
+  - code: idDoesNotExist
+    meaning: The identifier is unknown or illegal in this repository.
+    probed: false
+  - code: noRecordsMatch
+    meaning: The combination of from/until/set/metadataPrefix selects an empty list.
+    probed: false
+  - code: noMetadataFormats
+    meaning: No metadata formats available for the specified item.
+    probed: false
+  - code: noSetHierarchy
+    meaning: The repository does not support sets.
+    probed: false
+    note: Not applicable here — this repository advertises 7,430 sets.
+host_level:
+  - url: https://curis.ku.dk/
+    status: 503
+    note: >-
+      The CURIS host root is unavailable while /ws/oai answers every verb at 200. Probe the
+      protocol, never the landing page.
+  - url: https://researchprofiles.ku.dk/ws/oai?verb=Identify
+    status: 500
+    redirects_to: https://researchprofiles.ku.dk/error/
+    body: '{"timestamp":…,"status":999,"error":"None"}'
+    note: >-
+      The Elsevier-hosted portal does NOT serve the OAI endpoint; harvesting is only at
+      curis.ku.dk. A profiler that probed only the portal host would have concluded
+      Copenhagen publishes no OAI-PMH surface.

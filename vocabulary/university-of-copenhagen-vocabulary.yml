@@ -1,0 +1,100 @@
+generated: '2026-08-30'
+method: derived
+x-evidence-method: probed
+x-evidence-note: >-
+  Written by API Evangelist from live HTTP probes of the institution's own endpoints on
+  2026-08-30; every status code and payload quoted below was observed, not inferred. `derived`
+  is the provenance-manifest term for "we wrote it" — the provider did not publish this file.
+source: >-
+  Terms taken from live responses of https://curis.ku.dk/ws/oai, https://id.ku.dk,
+  https://metadata.wayf.dk and https://api.datacite.org on 2026-08-30, plus the
+  institution's own naming on ku.dk hosts.
+vocabulary:
+  name: University of Copenhagen Programmable Surface Vocabulary
+  description: >-
+    The named things a machine needs to know to work with Copenhagen's public surfaces, and
+    — as importantly for this cohort — which of them the university operates and which
+    belong to a vendor it buys from.
+  version: '2026-08-30'
+  terms:
+    - term: CURIS
+      definition: >-
+        Copenhagen University Research Information System. The institution's CRIS,
+        administratively owned by the org unit "KU Forskning og Informationssikkerhed",
+        contact curis@adm.ku.dk. Runs on Elsevier Pure 5.30.3-3, but its OAI-PMH harvesting
+        endpoint is served from the university's own host curis.ku.dk (130.226.237.49).
+      tags: [Research, Repository, Institution-Operated]
+    - term: researchprofiles.ku.dk
+      definition: >-
+        The public-facing research portal. A vanity hostname on Elsevier's platform —
+        CNAME chain researchprofiles.ku.dk -> ku.elsevierpure.com ->
+        eu.prod.elsevierpure.com -> Cloudflare. The data is Copenhagen's; the contract and
+        the engineering are Elsevier's. Returns a Cloudflare interstitial (403) to
+        non-browser clients.
+      tags: [Research, Repository, Tenant]
+    - term: OAI-PMH set
+      definition: >-
+        A harvesting partition. This repository advertises 7,430 setSpecs; the four that
+        matter to an integrator are openaire_cris_publications, openaire_cris_persons,
+        openaire_cris_orgunits and openaire_cris_patents.
+      tags: [OAI-PMH, Core Concept]
+    - term: oai_cerif_openaire
+      definition: >-
+        The metadata prefix that returns full OpenAIRE CERIF profile records — the richest
+        format on offer, and the only one carrying ORCID iDs and structured DOIs. Schema
+        https://www.openaire.eu/schema/cris/1.2/openaire-cerif-profile.xsd.
+      tags: [OAI-PMH, Metadata Format]
+    - term: ddf-mxd
+      definition: >-
+        A Danish national metadata format offered alongside the international prefixes,
+        together with fi-person (schema at forsker.forskningsdatabasen.dk) — these are the
+        formats by which Copenhagen feeds the Danish national research database.
+      tags: [OAI-PMH, Metadata Format, Denmark]
+    - term: WAYF
+      definition: >-
+        Where Are You From — Denmark's national identity federation and its eduGAIN
+        participant. Copenhagen has three registered SAML entities in it.
+      tags: [Identity Federation, Denmark]
+    - term: id.ku.dk
+      definition: >-
+        Copenhagen's production SAML 2.0 / WS-Federation identity provider (NetIQ Access
+        Manager, /nidp/ paths). Publishes a signed EntityDescriptor at
+        /nidp/saml2/metadata and is the login authority for KUnet and ERDA.
+      tags: [Identity Federation, Institution-Operated]
+    - term: ERDA
+      definition: >-
+        Electronic Research Data Archive, erda.ku.dk / erda.dk / sid.erda.dk. Operated by
+        the SCIENCE HPC Center at the University of Copenhagen. Authenticates UCPH users
+        through id.ku.dk and external users through oidc.erda.dk and cert.erda.dk.
+      tags: [Research Computing, Research Data, Institution-Operated]
+    - term: SCIENCE HPC Center
+      definition: >-
+        The high-performance computing centre of the Faculty of Science, hpc.ku.dk,
+        historically part of the DCSC national arrangement. Documents SLURM, Lustre, MPI
+        and compiler access as web pages, not as an API.
+      tags: [Research Computing, Institution-Operated]
+    - term: specify-snm.science.ku.dk
+      definition: >-
+        The Specify collection-management deployment of the Natural History Museum of
+        Denmark, on the Faculty of Science's own host. Its /static/depository/export_feed/
+        directory serves 13 Darwin Core Archive zips that GBIF harvests — the only bulk
+        open-data downloads Copenhagen serves from its own infrastructure.
+      tags: [Open Data, Biodiversity, Institution-Operated]
+    - term: kurser.ku.dk
+      definition: >-
+        The course catalogue. A Copenhagen hostname on Arcanic infrastructure
+        (courses.loadbalancer.arcanic.dk), serving human-readable course pages and a
+        471KB sitemap.xml. No JSON representation is offered — ?format=json returns HTML.
+      tags: [Course Catalog, Institution-Operated]
+    - term: ku-kom
+      definition: >-
+        The university's GitHub account (a User account, not an Organization), 52 public
+        repositories of TYPO3 CMS content elements and a Bootstrap styleguide that build
+        the ku.dk web platform. Source code, not a callable service.
+      tags: [Open Source, Institution-Operated]
+    - term: XIZZ
+      definition: >-
+        Copenhagen's DataCite provider symbol, an active consortium organization with two
+        registered repositories, xizz.curis and dk.ku. The mechanism by which the
+        university mints DOIs for its own research outputs.
+      tags: [Persistent Identifiers, Tenant]

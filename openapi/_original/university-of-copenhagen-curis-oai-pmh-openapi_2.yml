@@ -1,0 +1,184 @@
+# x-archived-from: university-of-copenhagen-curis-oai-pmh-openapi.yml
+# x-archived-on: 2026-09-16
+openapi: 3.1.0
+info:
+  title: University of Copenhagen CURIS OAI-PMH Repository Interface
+  version: '2.0'
+  x-generated: '2026-08-30'
+  x-method: derived
+  x-operator: institution
+  x-source: >-
+    Derived entirely from live probes of https://curis.ku.dk/ws/oai run 2026-08-30. Every
+    verb, parameter, metadataPrefix, set and error code below was observed in an actual
+    response — see examples/university-of-copenhagen-curis-oai-pmh-examples.yml for the
+    captured payloads and status codes. Nothing here is inferred from Pure documentation.
+  description: >-
+    The Open Archives Initiative Protocol for Metadata Harvesting (OAI-PMH) 2.0 interface
+    the University of Copenhagen operates over CURIS, its research information system.
+
+    OPERATOR NOTE — this is the one machine-readable research surface at Copenhagen that is
+    genuinely the institution's own, and it is worth being precise about why. The public
+    research portal at researchprofiles.ku.dk is an Elsevier Pure tenancy: it CNAMEs to
+    ku.elsevierpure.com -> eu.prod.elsevierpure.com -> Cloudflare, and its REST contract at
+    /ws/api/524/openapi.yaml is Elsevier's document, api-key gated (401). The OAI-PMH
+    harvesting endpoint is a different thing on a different machine. curis.ku.dk resolves to
+    130.226.237.49, inside the same University of Copenhagen /24 as cmsgw.adm.ku.dk and
+    skema.ku.dk. Its Identify response names the repository "University of Copenhagen", gives
+    adminEmail curis@adm.ku.dk, and attributes ownership to the org unit "KU Forskning og
+    Informationssikkerhed". The protocol it speaks is an open OpenArchives standard, not a
+    vendor API. So the contract described here is Copenhagen's deployment of a public
+    standard on Copenhagen's own infrastructure, and it is saved under Copenhagen's slug.
+    The Pure REST API is NOT saved here; it is recorded in apis.yml as a tenant relationship.
+
+    The endpoint is unauthenticated, serves 440,535 publication records across 7,430 sets in
+    six metadata formats, and is the feed by which Copenhagen's research output reaches
+    OpenAIRE and the Danish national research database.
+  contact:
+    name: CURIS — KU Forskning og Informationssikkerhed
+    email: curis@adm.ku.dk
+    url: https://researchprofiles.ku.dk/
+  license:
+    name: OAI-PMH 2.0 protocol specification
+    url: http://www.openarchives.org/OAI/openarchivesprotocol.html
+servers:
+  - url: https://curis.ku.dk/ws
+    description: >-
+      Production CURIS harvesting host, operated by the University of Copenhagen
+      (130.226.237.49). Probed 2026-08-30. Note that the host root https://curis.ku.dk/
+      returns 503 — presence of the service is established by the protocol response at
+      /oai?verb=Identify, never by the landing page.
+tags:
+  - name: OAI-PMH
+    description: The six OAI-PMH 2.0 verbs, all dispatched from a single path by query parameter.
+paths:
+  /oai:
+    get:
+      tags: [OAI-PMH]
+      operationId: oaiRequest
+      summary: Issue an OAI-PMH 2.0 request
+      description: >-
+        OAI-PMH is a single-endpoint protocol. The `verb` query parameter selects the
+        operation; the remaining parameters are conditional on the verb. All six verbs were
+        probed live against this host on 2026-08-30 and all six returned a well-formed
+        OAI-PMH envelope with HTTP 200 and Content-Type application/xml — including the two
+        error cases, which OAI-PMH signals in the body via <error code="..."> rather than by
+        HTTP status.
+      parameters:
+        - name: verb
+          in: query
+          required: true
+          description: The OAI-PMH verb to invoke.
+          schema:
+            type: string
+            enum:
+              - Identify
+              - ListMetadataFormats
+              - ListSets
+              - ListIdentifiers
+              - ListRecords
+              - GetRecord
+        - name: metadataPrefix
+          in: query
+          required: false
+          description: >-
+            Metadata format to return. Required for GetRecord, ListRecords and
+            ListIdentifiers; omitting it returns error code badArgument. The six values below
+            are the exact prefixes returned by ListMetadataFormats on this host.
+          schema:
+            type: string
+            enum: [oai_dc, oai_cerif_openaire, mods, xmetadiss, fi-person, ddf-mxd]
+        - name: identifier
+          in: query
+          required: false
+          description: >-
+            OAI identifier of a single record, required for GetRecord. Observed form is
+            `oai:pure.atira.dk:<setSpec>/<uuid>`.
+          schema:
+            type: string
+            examples: ['oai:pure.atira.dk:openaire_cris_publications/39b0bfc0-74bc-11db-bee9-02004c4f4f50']
+        - name: set
+          in: query
+          required: false
+          description: >-
+            Restrict a list request to one setSpec. 7,430 sets are advertised by ListSets;
+            the OpenAIRE CRIS entity sets are the ones a harvester normally wants.
+          schema:
+            type: string
+            examples: [openaire_cris_publications, openaire_cris_persons, openaire_cris_orgunits, openaire_cris_patents]
+        - name: from
+          in: query
+          required: false
+          description: >-
+            Lower bound on record datestamp. Granularity advertised by Identify is
+            YYYY-MM-DDThh:mm:ssZ; earliestDatestamp is 2013-07-05T08:08:50Z.
+          schema: {type: string, format: date-time}
+        - name: until
+          in: query
+          required: false
+          description: Upper bound on record datestamp, same granularity as `from`.
+          schema: {type: string, format: date-time}
+        - name: resumptionToken
+          in: query
+          required: false
+          description: >-
+            Flow-control token for continuing a paged list request. List responses carry
+            <resumptionToken completeListSize="..."> — 440,535 for oai_dc over
+            openaire_cris_publications as probed.
+          schema: {type: string}
+      responses:
+        '200':
+          description: >-
+            A well-formed OAI-PMH 2.0 envelope. Protocol-level failures also arrive as 200
+            with an <error code> element rather than a 4xx.
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/OAIPMHResponse'
+components:
+  schemas:
+    OAIPMHResponse:
+      type: object
+      description: >-
+        Root OAI-PMH element, namespace http://www.openarchives.org/OAI/2.0/. Modelled from
+        the captured responses; the authoritative schema is OAI-PMH.xsd at openarchives.org.
+      properties:
+        responseDate:
+          type: string
+          format: date-time
+          description: UTC timestamp the repository stamped on the response.
+        request:
+          type: string
+          format: uri
+          description: Echo of the base URL, with the request arguments as XML attributes.
+        error:
+          $ref: '#/components/schemas/OAIError'
+        Identify:
+          $ref: '#/components/schemas/Identify'
+      required: [responseDate, request]
+    Identify:
+      type: object
+      description: Repository self-description, captured verbatim from this host on 2026-08-30.
+      properties:
+        repositoryName: {type: string, examples: ['University of Copenhagen']}
+        baseURL: {type: string, format: uri, examples: ['https://curis.ku.dk/ws/oai']}
+        protocolVersion: {type: string, examples: ['2.0']}
+        adminEmail: {type: string, format: email, examples: ['curis@adm.ku.dk']}
+        earliestDatestamp: {type: string, format: date-time, examples: ['2013-07-05T08:08:50Z']}
+        deletedRecord: {type: string, enum: [no, persistent, transient], examples: [no]}
+        granularity: {type: string, examples: ['YYYY-MM-DDThh:mm:ssZ']}
+        description:
+          type: object
+          description: >-
+            Carries an OpenAIRE CERIF profile 1.1 <Service> block declaring compatibility
+            level OpenAIRE_Service_Compatibility#1.1.1, the running software version
+            (Pure 5.30.3-3) and the owning org unit.
+      required: [repositoryName, baseURL, protocolVersion, adminEmail]
+    OAIError:
+      type: object
+      description: Protocol error, returned inside a 200 response.
+      properties:
+        code:
+          type: string
+          enum: [badVerb, badArgument, badResumptionToken, cannotDisseminateFormat, idDoesNotExist, noRecordsMatch, noMetadataFormats, noSetHierarchy]
+        message: {type: string}
+      required: [code]
