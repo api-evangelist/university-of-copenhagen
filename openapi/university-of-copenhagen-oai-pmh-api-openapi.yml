@@ -122,6 +122,25 @@ components:
       required:
       - responseDate
       - request
+    OAIError:
+      type: object
+      description: Protocol error, returned inside a 200 response.
+      properties:
+        code:
+          type: string
+          enum:
+          - badVerb
+          - badArgument
+          - badResumptionToken
+          - cannotDisseminateFormat
+          - idDoesNotExist
+          - noRecordsMatch
+          - noMetadataFormats
+          - noSetHierarchy
+        message:
+          type: string
+      required:
+      - code
     Identify:
       type: object
       description: Repository self-description, captured verbatim from this host on 2026-08-30.
@@ -169,22 +188,3 @@ components:
       - baseURL
       - protocolVersion
       - adminEmail
-    OAIError:
-      type: object
-      description: Protocol error, returned inside a 200 response.
-      properties:
-        code:
-          type: string
-          enum:
-          - badVerb
-          - badArgument
-          - badResumptionToken
-          - cannotDisseminateFormat
-          - idDoesNotExist
-          - noRecordsMatch
-          - noMetadataFormats
-          - noSetHierarchy
-        message:
-          type: string
-      required:
-      - code

@@ -53,7 +53,7 @@ tags:
 - Research
 - Denmark
 - Nordic
-- Open-Source
+- Open Source
 - Research Data
 - Research Repository
 - Identity Federation
@@ -78,6 +78,7 @@ tags_raw:
 - Research Computing
 - Course Catalog
 - Biodiversity
+- Open-Source
 created: '2026-06-03'
 modified: '2026-09-16'
 specificationVersion: '0.23'
@@ -311,7 +312,7 @@ apis:
     service, and no OpenAPI or other API contract is published in any of them.'
   humanURL: https://github.com/ku-kom
   tags:
-  - Open-Source
+  - Open Source
   - TYPO3
   - CMS
   - Web
@@ -322,6 +323,7 @@ apis:
   - CMS
   - Web
   - Institution-Operated
+  - Open-Source
   properties:
   - type: GitHub
     url: https://github.com/ku-kom
