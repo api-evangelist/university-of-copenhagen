@@ -103,6 +103,53 @@ paths:
                 $ref: '#/components/schemas/OAIPMHResponse'
 components:
   schemas:
+    Identify:
+      type: object
+      description: Repository self-description, captured verbatim from this host on 2026-08-30.
+      properties:
+        repositoryName:
+          type: string
+          examples:
+          - University of Copenhagen
+        baseURL:
+          type: string
+          format: uri
+          examples:
+          - https://curis.ku.dk/ws/oai
+        protocolVersion:
+          type: string
+          examples:
+          - '2.0'
+        adminEmail:
+          type: string
+          format: email
+          examples:
+          - curis@adm.ku.dk
+        earliestDatestamp:
+          type: string
+          format: date-time
+          examples:
+          - '2013-07-05T08:08:50Z'
+        deletedRecord:
+          type: string
+          enum:
+          - 'no'
+          - persistent
+          - transient
+          examples:
+          - 'no'
+        granularity:
+          type: string
+          examples:
+          - YYYY-MM-DDThh:mm:ssZ
+        description:
+          type: object
+          description: Carries an OpenAIRE CERIF profile 1.1 <Service> block declaring compatibility level OpenAIRE_Service_Compatibility#1.1.1, the running software version (Pure 5.30.3-3) and the owning org unit.
+      required:
+      - repositoryName
+      - baseURL
+      - protocolVersion
+      - adminEmail
     OAIPMHResponse:
       type: object
       description: Root OAI-PMH element, namespace http://www.openarchives.org/OAI/2.0/. Modelled from the captured responses; the authoritative schema is OAI-PMH.xsd at openarchives.org.
@@ -141,50 +188,3 @@ components:
           type: string
       required:
       - code
-    Identify:
-      type: object
-      description: Repository self-description, captured verbatim from this host on 2026-08-30.
-      properties:
-        repositoryName:
-          type: string
-          examples:
-          - University of Copenhagen
-        baseURL:
-          type: string
-          format: uri
-          examples:
-          - https://curis.ku.dk/ws/oai
-        protocolVersion:
-          type: string
-          examples:
-          - '2.0'
-        adminEmail:
-          type: string
-          format: email
-          examples:
-          - curis@adm.ku.dk
-        earliestDatestamp:
-          type: string
-          format: date-time
-          examples:
-          - '2013-07-05T08:08:50Z'
-        deletedRecord:
-          type: string
-          enum:
-          - false
-          - persistent
-          - transient
-          examples:
-          - false
-        granularity:
-          type: string
-          examples:
-          - YYYY-MM-DDThh:mm:ssZ
-        description:
-          type: object
-          description: Carries an OpenAIRE CERIF profile 1.1 <Service> block declaring compatibility level OpenAIRE_Service_Compatibility#1.1.1, the running software version (Pure 5.30.3-3) and the owning org unit.
-      required:
-      - repositoryName
-      - baseURL
-      - protocolVersion
-      - adminEmail
