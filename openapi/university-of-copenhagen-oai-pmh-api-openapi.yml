@@ -103,6 +103,44 @@ paths:
                 $ref: '#/components/schemas/OAIPMHResponse'
 components:
   schemas:
+    OAIError:
+      type: object
+      description: Protocol error, returned inside a 200 response.
+      properties:
+        code:
+          type: string
+          enum:
+          - badVerb
+          - badArgument
+          - badResumptionToken
+          - cannotDisseminateFormat
+          - idDoesNotExist
+          - noRecordsMatch
+          - noMetadataFormats
+          - noSetHierarchy
+        message:
+          type: string
+      required:
+      - code
+    OAIPMHResponse:
+      type: object
+      description: Root OAI-PMH element, namespace http://www.openarchives.org/OAI/2.0/. Modelled from the captured responses; the authoritative schema is OAI-PMH.xsd at openarchives.org.
+      properties:
+        responseDate:
+          type: string
+          format: date-time
+          description: UTC timestamp the repository stamped on the response.
+        request:
+          type: string
+          format: uri
+          description: Echo of the base URL, with the request arguments as XML attributes.
+        error:
+          $ref: '#/components/schemas/OAIError'
+        Identify:
+          $ref: '#/components/schemas/Identify'
+      required:
+      - responseDate
+      - request
     Identify:
       type: object
       description: Repository self-description, captured verbatim from this host on 2026-08-30.
@@ -150,41 +188,3 @@ components:
       - baseURL
       - protocolVersion
       - adminEmail
-    OAIPMHResponse:
-      type: object
-      description: Root OAI-PMH element, namespace http://www.openarchives.org/OAI/2.0/. Modelled from the captured responses; the authoritative schema is OAI-PMH.xsd at openarchives.org.
-      properties:
-        responseDate:
-          type: string
-          format: date-time
-          description: UTC timestamp the repository stamped on the response.
-        request:
-          type: string
-          format: uri
-          description: Echo of the base URL, with the request arguments as XML attributes.
-        error:
-          $ref: '#/components/schemas/OAIError'
-        Identify:
-          $ref: '#/components/schemas/Identify'
-      required:
-      - responseDate
-      - request
-    OAIError:
-      type: object
-      description: Protocol error, returned inside a 200 response.
-      properties:
-        code:
-          type: string
-          enum:
-          - badVerb
-          - badArgument
-          - badResumptionToken
-          - cannotDisseminateFormat
-          - idDoesNotExist
-          - noRecordsMatch
-          - noMetadataFormats
-          - noSetHierarchy
-        message:
-          type: string
-      required:
-      - code
